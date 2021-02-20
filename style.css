@@ -1,0 +1,82 @@
+body {
+	font-family: Roboto, sans-serif;
+	font-size: 14px;
+	padding: 0;
+	margin: 0;
+}
+.main {
+	display: grid;
+	height: 100vh;
+	place-items: center;
+	background-color: #9a9fa6;
+}
+.nav {
+	margin: 0;
+	padding: 1vh;
+	background-color: #223a54;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+.logo {
+	height: 50px;
+	width: 50px;
+	margin: 5px 15px 0 0;
+}
+.txt-button, .rect-button {
+	border: none;
+	padding: .5em 1em;
+	margin-right: 2vw;
+	font-size: inherit;
+	font-family: inherit;
+	font-family: Roboto, sans-serif;
+	font-size: 18px;
+}
+.txt-button {
+	background-color: transparent;
+}
+.rect-button {
+	border-radius: 1vh;
+	background-color: #9a9fa6;
+}
+.big {
+	font-weight: bold;
+	font-size: 35px;
+	letter-spacing: .03em;
+	color: #d35b2b;
+	text-transform: uppercase;
+}
+.med {
+	font-size: 25px;
+}
+.smol {
+	font-size: 10px;
+}
+.white {
+	color: white;
+}
+.black {
+	color: black;
+}
+.orange {
+	color: #d35b2b;
+}
+.blue{
+	color: #223a54;
+}
+.white-bg {
+	background-color: white;
+}
+.orange-bg {
+	background-color: #d35b2b;
+}
+.blue-bg {
+	background-color: #223a54;
+}
+.center-hori {
+	text-align: center;
+}
+.center-verti {
+	display: flex;
+	align-items: center;
+}
