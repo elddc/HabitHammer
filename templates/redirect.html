@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Habit Hammer</title>
+	<link rel="icon" href="static/icon.png">
+	<link rel="stylesheet" href="static/styles.css"/>
+</head>
+<body onload="redirect()">
+<script src="https://www.gstatic.com/firebasejs/8.2.9/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.2.8/firebase-auth.js"></script>
+
+<script>
+	var firebaseConfig = {
+		apiKey: "AIzaSyBGhVi2ZSQAs3reI07GfNolcSvWO_tSEW4",
+		authDomain: "ec-ftest.firebaseapp.com",
+		projectId: "ec-ftest",
+		storageBucket: "ec-ftest.appspot.com",
+		messagingSenderId: "28831555118",
+		appId: "1:28831555118:web:4a651dafec45d4a5b609bf"
+	};
+	firebase.initializeApp(firebaseConfig);
+</script>
+
+<script>
+	function redirect(){
+		let user = firebase.auth().currentUser;
+		if (user) {
+			window.location.href='/habits';
+		}
+		else 
+			window.location.href='/login';
+	}
+</script>
+</body>
+</html>
