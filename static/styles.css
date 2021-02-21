@@ -1,11 +1,12 @@
 :root{
     --gray: #9a9fa6;
+    --light-gray: #cacfd6;
     --orange: #d35b2b;
     --blue: #223a54;
 }
 body {
 	font-family: Roboto, sans-serif;
-	font-size: 14px;
+	font-size: 16px;
 	padding: 0;
 	margin: 0;
 }
@@ -17,9 +18,15 @@ label {
     font-family: inherit;
     font-size: 16px;
 }
+h1 {
+    margin-top: 2em;
+}
+p {
+    line-height: 1.5em;
+    margin-left: .25em;
+}
 .main {
 	display: grid;
-	height: 100vh;
 	place-items: center;
 }
 .nav {
@@ -64,15 +71,18 @@ label {
     border: .1em solid var(--gray);
     border-radius: .5em;
 }
-.big {
+.huge {
 	font-weight: bold;
 	font-size: 35px;
 	letter-spacing: .02em;
 	color: var(--orange);
 	text-transform: uppercase;
 }
-.med {
+.big {
 	font-size: 25px;
+}
+.med {
+    font-size: 18px;
 }
 .smol {
 	font-size: 12px;
@@ -93,7 +103,7 @@ label {
 	background-color: white;
 }
 .gray-bg {
-	background-color: var(--gray);
+	background-color: var(--light-gray);
 }
 .orange-bg {
 	background-color: var(--orange);
