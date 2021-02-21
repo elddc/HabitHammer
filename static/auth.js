@@ -15,3 +15,8 @@ function logIn(){
 	.catch(e => console.log(e.message));
 	window.location.href = '/app/habits';
 }
+
+function logOut(){
+	auth.signOut();
+	console.log("Signed out");
+}

@@ -22,10 +22,9 @@ def login():
 
 @app.route('/app')
 def re():
-  #TODO check if logged in
-  return redirect('/app/habits')
+  return render_template('redirect.html')
 
-@app.route('/app/habits')
+@app.route('/habits')
 def habits():
   return render_template('habits.html')
 

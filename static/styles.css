@@ -96,6 +96,7 @@ ul {
 	margin-right: 2vw;
     font-size: 18px;
 	font-family: inherit;
+    outline: none;
 }
 .txt-button {
 	background-color: transparent;
@@ -178,4 +179,7 @@ ul {
 }
 .align-right {
     text-align: right;
+}
+.right{
+    float: right;
 }
