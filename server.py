@@ -2,18 +2,26 @@ from flask import Flask, render_template, request
 
 app = Flask(__name__)
 app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
-app.config['TEMPLATES_AUTO_RELOAD'] = True
+#app.config['TEMPLATES_AUTO_RELOAD'] = True
 
 @app.route('/')
 def home():
   return render_template('index.html')
 
-@app.route('/signup', methods=['GET', 'POST'])
-def home():
+@app.route('/about')
+def about():
+  return render_template('about.html')
+
+@app.route('/app')
+def about():
+  return render_template('app.html')
+
+@app.route('/signup')
+def signup():
   return render_template('signup.html')
 
-@app.route('/signup', methods=['GET', 'POST'])
-def home():
+@app.route('/login')
+def login():
   return render_template('login.html')
 
 if __name__ == "__main__":

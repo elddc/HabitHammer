@@ -67,7 +67,7 @@ label {
 .big {
 	font-weight: bold;
 	font-size: 35px;
-	letter-spacing: .03em;
+	letter-spacing: .02em;
 	color: var(--orange);
 	text-transform: uppercase;
 }
