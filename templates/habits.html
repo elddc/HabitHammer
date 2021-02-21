@@ -5,6 +5,8 @@
 	<title>Habit Hammer</title>
 	<link rel="icon" href="static/icon.png">
 	<link rel="stylesheet" href="static/styles.css"/>
+  
+  <script src="static/habits.js"></script>
 </head>
 <body>
 <div class="container">
@@ -31,11 +33,12 @@
 	<div class="grid-main">
 		<h1>Today</h1>
 		<ul>
-			<!--TODO finish habit components-->
-			<li><div class="habit">
-				<button class="circle-button"></button>
-				One
+      {% for key in dict.keys() %}
+			<li><div class="habit" onclick="displayInfo('{{key}}', {{j}})">
+				<button class="circle-button" style="z-index: 5;" onclick="doHabit('{{key}}')"></button>
+				{{key}}
 			</div></li>
+      {% endfor %}
 		</ul>
 	</div>
 </div>
