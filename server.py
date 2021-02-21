@@ -1,5 +1,8 @@
 from flask import Flask, render_template, redirect
 
+import model
+import json
+
 app = Flask(__name__)
 app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
 #app.config['TEMPLATES_AUTO_RELOAD'] = True
@@ -26,7 +29,8 @@ def re():
 
 @app.route('/habits')
 def habits():
-  return render_template('habits.html')
+  all = model.get_habits()
+  return render_template('habits.html', dict=all, j=json.dumps(all))
 
 if __name__ == "__main__":
   app.run(debug=True)
