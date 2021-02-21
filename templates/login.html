@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Habit Hammer</title>
+	<link rel="icon" href="static/icon.png">
+	<link rel="stylesheet" href="static/styles.css"/>
+</head>
+<body>
+<div class="main">
+	<div class="center-hori modal">
+		<div style="margin-bottom: 2vh;">
+			<img src="static/icon.png" class="logo" alt="logo">
+			<b class="blue bold med">Habit Hammer</b>
+		</div>
+		<div class="align-right">
+			<label for="email">Email</label>
+			<input type="email" id="email" name="email" class="txt-in"><br>
+			<label for="pass">Password</label>
+			<input type="password" id="pass" name="pass" class="txt-in"><br>
+
+			<button class="rect-button white blue-bg" style="margin-right: 2vh; margin-top: 2vh;" onclick="logIn()">
+				Log In
+			</button>
+		</div>
+	</div>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/8.2.9/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.2.8/firebase-auth.js"></script>
+
+<script>
+	var firebaseConfig = {
+		apiKey: "AIzaSyBGhVi2ZSQAs3reI07GfNolcSvWO_tSEW4",
+		authDomain: "ec-ftest.firebaseapp.com",
+		projectId: "ec-ftest",
+		storageBucket: "ec-ftest.appspot.com",
+		messagingSenderId: "28831555118",
+		appId: "1:28831555118:web:4a651dafec45d4a5b609bf"
+	};
+	firebase.initializeApp(firebaseConfig);
+</script>
+
+<script src="static/auth.js"></script>
+</body>
+</html>
