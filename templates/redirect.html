@@ -26,10 +26,10 @@
 	function redirect(){
 		let user = firebase.auth().currentUser;
 		if (user) {
-			window.location.replace('/habits');
+			window.location.href='/habits';
 		}
-		else
-			window.location.replace('/login');
+		else 
+			window.location.href='/login';
 	}
 </script>
 </body>
