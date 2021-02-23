@@ -1,3 +1,0 @@
-Flask
-firebase_admin
-json

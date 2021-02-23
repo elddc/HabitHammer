@@ -2,11 +2,14 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>Habit Hammer</title>
-	<link rel="icon" href="static/icon.png">
-	<link rel="stylesheet" href="static/styles.css"/>
+	<title>Redirecting...</title>
+	<link rel="icon" href="icon.png">
+	<link rel="stylesheet" href="styles.css"/>
 </head>
-<body onload="redirect()">
+<body>
+
+<div class="main gray-bg" id="main"></div>
+
 <script src="https://www.gstatic.com/firebasejs/8.2.9/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.2.8/firebase-auth.js"></script>
 
@@ -22,15 +25,13 @@
 	firebase.initializeApp(firebaseConfig);
 </script>
 
+<script src="auth.js"></script>
 <script>
-	function redirect(){
-		let user = firebase.auth().currentUser;
-		if (user) {
-			window.location.href='/habits';
-		}
-		else 
-			window.location.href='/login';
-	}
+	firebase.auth().onAuthStateChanged(user => redirect());
+
+	setTimeout(function(){
+		document.getElementById("main").innerHTML = '<a class="big" onclick="window.location.href=\'habits.html\'">Click <u class="blue">here</u> if not redirected</a>';
+	}, 1000)
 </script>
 </body>
 </html>

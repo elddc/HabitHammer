@@ -3,42 +3,40 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Habit Hammer</title>
-	<link rel="icon" href="static/icon.png">
-	<link rel="stylesheet" href="static/styles.css"/>
-  
-  <script src="static/habits.js"></script>
+	<link rel="icon" href="icon.png">
+	<link rel="stylesheet" href="styles.css"/>
+
+  <script src="habits.js"></script>
 </head>
 <body>
 <div class="container">
 	<div class="nav grid-head">
-		<span class="center-verti huge" onclick="window.location.href='/app'">
-			<img src="static/icon.png" class="logo" alt="logo">
+		<a class="center-verti huge" onclick="window.location.href='index.html'">
+			<img src="icon.png" class="logo" alt="logo">
 			Habit Hammer
-		</span>
+		</a>
 		<span>
 			<button class="txt-button right white" onclick="logOut()">Log out</button>
 		</span>
 	</div>
 	<ul class="grid-side big white">
 		<!--TODO pages + links-->
-		<li><a href="/">Today</a></li><!--Today/Upcoming/To Do-->
+		<li><a href="">Today</a></li><!--Today/Upcoming/To Do-->
 		<li><a href="/">All</a></li>
-		<div style="height: 6.25vh;"></div>
-		<li><a href="/">New</a></li>
-		<li><a href="/">+ Build</a></li>
-		<li><a href="/">+ Break</a></li>
-		<div style="height: 6.25vh;"></div>
-		<li><a href="/">History</a></li><!--History/Stats-->
+		<div class="spacer"></div>
+		<li><a href="">New</a></li>
+		<li><a href="">+ Build</a></li>
+		<li><a href="">+ Break</a></li>
+		<div class="spacer"></div>
+		<li><a href="">History</a></li><!--History/Stats-->
 	</ul>
 	<div class="grid-main">
 		<h1>Today</h1>
 		<ul>
-      {% for key in dict.keys() %}
-			<li><div class="habit" onclick="displayInfo('{{key}}', {{j}})">
-				<button class="circle-button" style="z-index: 5;" onclick="doHabit('{{key}}')"></button>
-				{{key}}
+			<li><div class="habit">
+				<button class="circle-button"></button>
+				Habit Name
 			</div></li>
-      {% endfor %}
 		</ul>
 	</div>
 </div>
@@ -58,6 +56,6 @@
 	firebase.initializeApp(firebaseConfig);
 </script>
 
-<script src="static/auth.js"></script>
+<script src="auth.js"></script>
 </body>
 </html>
