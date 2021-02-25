@@ -5,8 +5,6 @@
 	<title>Habit Hammer</title>
 	<link rel="icon" href="icon.png">
 	<link rel="stylesheet" href="styles.css"/>
-
-  <script src="habits.js"></script>
 </head>
 <body>
 <div class="container">
@@ -23,26 +21,29 @@
 		<!--TODO pages + links-->
 		<li><a href="">Today</a></li><!--Today/Upcoming/To Do-->
 		<li><a href="/">All</a></li>
-		<div class="spacer"></div>
+		<li class="spacer"></li>
 		<li><a href="">New</a></li>
 		<li><a href="">+ Build</a></li>
 		<li><a href="">+ Break</a></li>
-		<div class="spacer"></div>
+		<li class="spacer"></li>
 		<li><a href="">History</a></li><!--History/Stats-->
 	</ul>
 	<div class="grid-main">
 		<h1>Today</h1>
-		<ul>
+		<ul id="today">
+		<!-- Template
 			<li><div class="habit">
 				<button class="circle-button"></button>
 				Habit Name
 			</div></li>
+		-->
 		</ul>
 	</div>
 </div>
 
 <script src="https://www.gstatic.com/firebasejs/8.2.9/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.2.8/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.2.9/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.2.9/firebase-firestore.js"></script>
 
 <script>
 	var firebaseConfig = {
@@ -57,5 +58,50 @@
 </script>
 
 <script src="auth.js"></script>
+<script src="habits.js"></script>
+<script>    //move to withing habits.js? or new script file?
+	firebase.auth().onAuthStateChanged(user => start(user.uid));
+
+	function start(user){
+		setUser(user);
+		displayHabit('floss');
+		//fillExample();
+	}
+
+	//generates 3 example habits
+	function fillExample(){
+		add('floss', buildHabit(
+			'put on PJs',
+			'floss',
+			'brush teeth',
+			'brush teeth'));
+		add('journal', buildHabit(
+			'eat breakfast',
+			'write in journal',
+			'look at cat photos',
+			false,
+			['one paragraph', 'one page', 'three pages']));
+		add('stop snacking', breakHabit(
+			'feel bored',
+			'eat candy',
+			'sugar',
+			'go on a walk',
+			['hide candy']));
+	}
+
+	function displayHabit(name){
+		let out = '<li><div class="habit" id="' + name + '" onclick="showInfo(\'' + name + '\')">';
+		out += '<button class="circle-button"></button>'
+		out += name;
+		out += '</div></li>';
+
+		document.getElementById('today').innerHTML += out;
+	}
+
+	async function showInfo(name){
+		let habit = await getHabit(name);
+		console.log(habit);
+	}
+</script>
 </body>
 </html>

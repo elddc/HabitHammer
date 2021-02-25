@@ -9,7 +9,6 @@ function signUp(){
 		document.getElementById("email").value,
 		document.getElementById("pass").value)
 	.then(() => {
-		console.log(firebase.auth().currentUser);
 		window.location.href = 'habits.html';
 	})
 	.catch(e => console.log(e.message));
@@ -20,8 +19,7 @@ function logIn(){
 		document.getElementById("email").value,
 		document.getElementById("pass").value)
 	.then(() => {
-		console.log(firebase.auth().currentUser);
-		//window.location.href = 'habits.html';
+		window.location.href = 'habits.html';
 	})
 	.catch(e => console.log(e.message));
 }
@@ -32,12 +30,11 @@ function logOut(){
 	window.location.href = 'index.html';
 }
 
-//make sure auth object is done initializing before calling this
-function redirect(){
-	let user = firebase.auth().currentUser;
-	console.log(user);
+//user is firebase.auth().currentUser
+function redirect(user){
 	if (user) {
-		//window.location.replace('habits.html');
+		window.location.replace('habits.html');
+		console.log(user.uid);
 	}
 	else {
 		window.location.replace('login.html');
