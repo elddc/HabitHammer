@@ -39,6 +39,12 @@
 		-->
 		</ul>
 	</div>
+
+	<div class="modal-bg" id="popup">
+		<div class="modal">
+			Info
+		</div>
+	</div>
 </div>
 
 <script src="https://www.gstatic.com/firebasejs/8.2.9/firebase-app.js"></script>
@@ -61,6 +67,14 @@
 <script src="habits.js"></script>
 <script>    //move to withing habits.js? or new script file?
 	firebase.auth().onAuthStateChanged(user => start(user.uid));
+
+	//alt to onclick="this.style.display='none'" in popup
+	//TODO same with circle button?
+	window.onclick = function(event) {
+		if (event.target == document.getElementById('popup')) {
+			document.getElementById('popup').style.display = "none";
+		}
+	}
 
 	function start(user){
 		setUser(user);
@@ -101,6 +115,8 @@
 	async function showInfo(name){
 		let habit = await getHabit(name);
 		console.log(habit);
+
+		document.getElementById('popup').style.display='grid';
 	}
 </script>
 </body>
