@@ -16,17 +16,6 @@ function getHabit(name){
 	});
 }
 
-function getHabitt(name){
-	userHabits.doc(name).get().then(doc => {
-		console.log(doc.data());
-
-		if (doc.exists)
-			return doc.data();
-		else
-			return null;
-	}).catch(e => console.log(e.message));
-}
-
 function add(name, habit){
 	userHabits.doc(name).set(habit);
 }
