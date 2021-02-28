@@ -17,42 +17,40 @@
 			<button class="txt-button right white" onclick="logOut()">Log out</button>
 		</span>
 	</div>
-	<ul class="grid-side big white">
-		<!--TODO pages + links-->
-		<li><a href="">Today</a></li><!--Today/Upcoming/To Do-->
-		<li><a href="/">All</a></li>
-		<li class="spacer"></li>
-		<li><a href="">New</a></li>
-		<li><a href="">+ Build</a></li>
-		<li><a href="">+ Break</a></li>
-		<li class="spacer"></li>
-		<li><a href="">History</a></li><!--History/Stats-->
-	</ul>
+    <nav class="grid-side big white">
+        <ul>
+            <!-- TODO pages + links -->
+            <li><a href="">Today</a></li><!-- Today/Upcoming/To Do -->
+            <li><a href="/">All</a></li>
+            <li class="spacer"></li>
+            <li><a href="">New</a></li>
+            <li><a href="">+ Build</a></li>
+            <li><a href="">+ Break</a></li>
+            <li class="spacer"></li>
+            <li><a href="">History</a></li><!-- History/Stats -->
+        </ul>
+    </nav>
 	<div class="grid-main">
 		<h1>Today</h1>
 		<ul id="today">
-		<!-- Template
-			<li><div class="habit">
-				<button class="circle-button"></button>
-				Habit Name
-			</div></li>
-		-->
 		</ul>
 	</div>
 
 	<div class="modal-bg" id="popup">
-		<div class="modal">
+		<div class="modal" id="modal">
 			Info
 		</div>
 	</div>
 </div>
+
+<!-- Firebase -->
 
 <script src="https://www.gstatic.com/firebasejs/8.2.9/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.2.9/firebase-auth.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.2.9/firebase-firestore.js"></script>
 
 <script>
-	var firebaseConfig = {
+	const firebaseConfig = {
 		apiKey: "AIzaSyBGhVi2ZSQAs3reI07GfNolcSvWO_tSEW4",
 		authDomain: "ec-ftest.firebaseapp.com",
 		projectId: "ec-ftest",
@@ -65,14 +63,41 @@
 
 <script src="auth.js"></script>
 <script src="habits.js"></script>
-<script>    //move to withing habits.js? or new script file?
-	firebase.auth().onAuthStateChanged(user => start(user.uid));
 
-	//alt to onclick="this.style.display='none'" in popup
-	//TODO same with circle button?
+<!-- Mustache templates -->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/4.1.0/mustache.min.js"></script>
+
+<script id="taskTemplate" type="text/x-handlebars-template">
+	<li><div class="habit" id={{name}} onclick="showInfo('{{name}}')">
+		<button class="circle-button" onclick="doHabit(event)"></button>
+		{{name}}
+	</div></li>
+</script>
+
+<script id="modalTemplate" type="text/x-handlebars-template">
+	<b class="big blue">{{type}}</b>
+	<br><br>
+	{{cue}}
+	<br>
+	{{routine}}
+	<br>
+	{{reward}}
+	<br>
+	{{stack}}
+	<br>
+	{{steps}}
+</script>
+
+<!-- Rendering Stuff -->
+
+<script>
+	const taskView = document.getElementById('taskTemplate').innerHTML;
+	const modalView = document.getElementById('modalTemplate').innerHTML;
+
 	window.onclick = function(event) {
-		if (event.target == document.getElementById('popup')) {
-			document.getElementById('popup').style.display = "none";
+		if (event.target === document.getElementById('popup')) {
+			document.getElementById('popup').style.display = 'none';
 		}
 	}
 
@@ -82,41 +107,20 @@
 		//fillExample();
 	}
 
-	//generates 3 example habits
-	function fillExample(){
-		add('floss', buildHabit(
-			'put on PJs',
-			'floss',
-			'brush teeth',
-			'brush teeth'));
-		add('journal', buildHabit(
-			'eat breakfast',
-			'write in journal',
-			'look at cat photos',
-			false,
-			['one paragraph', 'one page', 'three pages']));
-		add('stop snacking', breakHabit(
-			'feel bored',
-			'eat candy',
-			'sugar',
-			'go on a walk',
-			['hide candy']));
-	}
-
 	function displayHabit(name){
-		let out = '<li><div class="habit" id="' + name + '" onclick="showInfo(\'' + name + '\')">';
-		out += '<button class="circle-button"></button>'
-		out += name;
-		out += '</div></li>';
-
-		document.getElementById('today').innerHTML += out;
+		document.getElementById('today').innerHTML = Mustache.render(taskView, {name});
 	}
 
 	async function showInfo(name){
 		let habit = await getHabit(name);
 		console.log(habit);
 
+		document.getElementById('modal').innerHTML = Mustache.render(modalView, habit);
 		document.getElementById('popup').style.display='grid';
+	}
+
+	function doHabit(ev){
+		ev.stopPropagation();
 	}
 </script>
 </body>
