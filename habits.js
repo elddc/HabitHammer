@@ -7,6 +7,16 @@ function setUser(id){
 	userHabits = db.collection(id);
 }
 
+async function getAll(){
+	let ref = await userHabits.get();
+	return ref.docs.map(doc => doc.id);
+}
+
+//todo after dates are added
+function getToday(){
+
+}
+
 function getHabit(name){
 	return new Promise((resolve, reject) => {
 		userHabits.doc(name).get().then(doc => {
@@ -18,11 +28,22 @@ function getHabit(name){
 	});
 }
 
+//will overwrite any docs with same name
+//todo give warning if user attempts to add a duplicate habit
 function add(name, habit){
 	userHabits.doc(name).set(habit);
 }
 
-function buildHabit(cue, routine, reward, stack=false, steps=false){
+function update(name, fields){
+	userHabits.doc(name).update(fields);
+}
+
+function markComplete(name){
+	//todo get date and pass here
+	update(name, {});
+}
+
+function buildHabit(cue, routine, reward, stack=null, steps=null){
 	return {
 		cue: cue,
 		routine: routine,
@@ -33,7 +54,7 @@ function buildHabit(cue, routine, reward, stack=false, steps=false){
 	}
 }
 
-function breakHabit(cue, routine, reward, replace=false, steps=false){
+function breakHabit(cue, routine, reward, replace=null, steps=null){
 	return {
 		cue: cue,
 		routine: routine,
@@ -55,7 +76,7 @@ function fillExample(){
 		'eat breakfast',
 		'write in journal',
 		'look at cat photos',
-		false,
+		null,
 		['one paragraph', 'one page', 'three pages']));
 	add('stop snacking', breakHabit(
 		'feel bored',

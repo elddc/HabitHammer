@@ -35,22 +35,6 @@ ul {
     place-items: center;
     height: 100vh;
 }
-.modal {
-    padding: 5vh;
-    border: 0.2em solid var(--blue);
-    border-radius: 50px;
-    background-color: white;
-    z-index: 3;
-}
-.modal-bg {
-    display: none;
-    position: fixed;
-    z-index: 2;
-    place-items: center;
-    height: 100vh;
-    width: 100vw;
-    background-color: #00000088;
-}
 .nav {
     margin: 0;
     padding: 1vh;
@@ -63,6 +47,34 @@ ul {
     height: 50px;
     width: 50px;
     margin: 5px 15px 0 0;
+}
+.modal {
+    padding: 3vh;
+    border: 0.2em solid var(--blue);
+    border-radius: 2em;
+    background-color: white;
+    z-index: 3;
+    min-width: 20em;
+}
+.modal-bg {
+    display: none;
+    position: fixed;
+    z-index: 2;
+    place-items: center;
+    height: 100vh;
+    width: 100vw;
+    background-color: #00000088;
+}
+.habit-table {
+    border-spacing: .8em .3em;
+    margin-left: -.8em;
+}
+.habit-table td:first-child {
+    text-align: right;
+    color: var(--blue);
+}
+.habit-table td:nth-child(2) {
+    font-style: italic;
 }
 .container {
     height: 100vh;
@@ -91,7 +103,7 @@ ul {
 .grid-side li {
     padding: 0.3em 3vw;
 }
-.grid-side li:hover {
+.grid-side li:not(.spacer):hover {
     background-color: var(--light-gray);
 }
 .txt-in {
@@ -124,7 +136,7 @@ ul {
     height: 25px;
     width: 25px;
     z-index: 1;
-    margin-right: 20px;
+    margin-right: 1.5em;
     border: 2px solid var(--blue);
     border-radius: 100em;
     background-color: transparent;
@@ -134,16 +146,25 @@ ul {
     border: 0.1em solid var(--gray);
     border-radius: 0.5em;
 }
+#today li {
+    margin-bottom: 1.5em;
+}
 .habit {
     background-color: white;
-    padding: 1.5em;
+    padding: 1em;
     border-radius: 0.7em;
     display: flex;
     align-items: center;
     font-size: 20px;
 }
+.habit-type {
+    margin-left: 3em;
+}
 .spacer {
     height: 6.25vh;
+}
+.spaced {
+    height: 2.5em;
 }
 .huge {
     font-weight: bold;
@@ -161,11 +182,20 @@ ul {
 .smol {
     font-size: 12px;
 }
+.capital {
+    text-transform: capitalize;
+}
+.underline {
+    text-decoration: underline;
+}
+.strikethrough {
+    text-decoration: line-through;
+}
 .white {
     color: white;
 }
-.black {
-    color: black;
+.gray {
+    color: var(--gray);
 }
 .orange {
     color: var(--orange);

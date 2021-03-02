@@ -14,14 +14,14 @@
 			Habit Hammer
 		</a>
 		<span>
-			<button class="txt-button right white" onclick="logOut()">Log out</button>
+			<button class="txt-button right white" onclick="logOut()">Log Out</button>
 		</span>
 	</div>
     <nav class="grid-side big white">
         <ul>
             <!-- TODO pages + links -->
             <li><a href="">Today</a></li><!-- Today/Upcoming/To Do -->
-            <li><a href="/">All</a></li>
+            <li><a href="">All</a></li>
             <li class="spacer"></li>
             <li><a href="">New</a></li>
             <li><a href="">+ Build</a></li>
@@ -75,18 +75,44 @@
 	</div></li>
 </script>
 
+<!-- todo
+	- link stacked habits (if exists)
+	- steps checklist-style display w/ prog bar
+	- edit capabilites
+-->
 <script id="modalTemplate" type="text/x-handlebars-template">
-	<b class="big blue">{{type}}</b>
-	<br><br>
-	{{cue}}
-	<br>
-	{{routine}}
-	<br>
-	{{reward}}
-	<br>
-	{{stack}}
-	<br>
-	{{steps}}
+	<b class="big blue capital">{{name}}</b>
+	<span class="right gray habit-type"><i>{{type}}</i></span>
+	<br><hr>
+	<table class="habit-table">
+		<tr>
+			<td>Cue</td>
+			<td>{{cue}}</td>
+		</tr>
+		<tr>
+			<td>Routine</td>
+			<td>{{routine}}</td>
+		</tr>
+		<tr>
+			<td>Reward</td>
+			<td>{{reward}}</td>
+		</tr>
+		{{#stack}}
+			<tr class="spaced">
+				<td>Stack with</td>
+				<td>{{stack}}</td>
+			</tr>
+		{{/stack}}
+	</table>
+	{{#steps.length}}
+		<span class="blue underline spaced">Steps</span>
+		<ul>{{#steps}}
+			<li>
+				<!-- checkbox? --> -
+				{{.}}
+			</li>
+		{{/steps}}</ul>
+	{{/steps.length}}
 </script>
 
 <!-- Rendering Stuff -->
@@ -103,16 +129,23 @@
 
 	function start(user){
 		setUser(user);
-		displayHabit('floss');
+		displayAllHabits();
 		//fillExample();
 	}
 
 	function displayHabit(name){
-		document.getElementById('today').innerHTML = Mustache.render(taskView, {name});
+		document.getElementById('today').innerHTML += Mustache.render(taskView, {name});
+	}
+
+	async function displayAllHabits(){
+		let allHabits = await getAll();
+		console.log(allHabits)
+		allHabits.forEach(id => displayHabit(id));
 	}
 
 	async function showInfo(name){
 		let habit = await getHabit(name);
+		habit.name = name;
 		console.log(habit);
 
 		document.getElementById('modal').innerHTML = Mustache.render(modalView, habit);
