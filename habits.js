@@ -1,4 +1,5 @@
 const db = firebase.firestore();
+const fs = firebase.firestore;
 let userHabits = db.collection('example');  //change to user id
 
 firebase.auth().onAuthStateChanged(user => start(user.uid));
@@ -8,13 +9,20 @@ function setUser(id){
 }
 
 async function getAll(){
-	let ref = await userHabits.get();
-	return ref.docs.map(doc => doc.id);
+	let all = await userHabits.get();
+	return all.docs.map(doc => doc.id);
 }
 
-//todo after dates are added
-function getToday(){
-
+function getTodo(){
+	return new Promise((resolve, reject) => {
+		let todo = [];
+		let today = new Date();
+		today.setHours(0, 0, 0, 0)
+		userHabits.where('last', '<', today).get().then(snapshot => {
+			snapshot.forEach(doc => todo.push(doc.id));
+			resolve(todo);
+		}).catch(e => reject(e));
+	});
 }
 
 function getHabit(name){
@@ -39,8 +47,10 @@ function update(name, fields){
 }
 
 function markComplete(name){
-	//todo get date and pass here
-	update(name, {});
+	userHabits.doc(name).update({
+		last: fs.Timestamp.now(),
+		times: fs.FieldValue.arrayUnion(fs.Timestamp.now())
+	});
 }
 
 function buildHabit(cue, routine, reward, stack=null, steps=null){
@@ -85,3 +95,7 @@ function fillExample(){
 		'go on a walk',
 		['hide candy']));
 }
+
+/* functions to add
+ - getDone(): gets habits done today
+ */

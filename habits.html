@@ -69,16 +69,16 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/4.1.0/mustache.min.js"></script>
 
 <script id="taskTemplate" type="text/x-handlebars-template">
-	<li><div class="habit" id={{name}} onclick="showInfo('{{name}}')">
-		<button class="circle-button" onclick="doHabit(event)"></button>
+	<li id={{name}}><div class="habit" onclick="showInfo('{{name}}')">
+		<button class="circle-button" onclick="doHabit(event, '{{name}}')"></button>
 		{{name}}
 	</div></li>
 </script>
 
 <!-- todo
-	- link stacked habits (if exists)
-	- steps checklist-style display w/ prog bar
 	- edit capabilites
+	- steps checklist-style display w/ prog bar
+	- link stacked habits (if exists)
 -->
 <script id="modalTemplate" type="text/x-handlebars-template">
 	<b class="big blue capital">{{name}}</b>
@@ -105,7 +105,7 @@
 		{{/stack}}
 	</table>
 	{{#steps.length}}
-		<span class="blue underline spaced">Steps</span>
+		<div class="blue underline spaced">Steps</div>
 		<ul>{{#steps}}
 			<li>
 				<!-- checkbox? --> -
@@ -118,18 +118,21 @@
 <!-- Rendering Stuff -->
 
 <script>
+	//get templates
 	const taskView = document.getElementById('taskTemplate').innerHTML;
 	const modalView = document.getElementById('modalTemplate').innerHTML;
 
+	//hide popup on bg click
 	window.onclick = function(event) {
 		if (event.target === document.getElementById('popup')) {
 			document.getElementById('popup').style.display = 'none';
+			console.log('hide');
 		}
 	}
 
 	function start(user){
 		setUser(user);
-		displayAllHabits();
+		displayTodoHabits();
 		//fillExample();
 	}
 
@@ -137,23 +140,42 @@
 		document.getElementById('today').innerHTML += Mustache.render(taskView, {name});
 	}
 
+	//remove from all view
+	function displayAllDone() {
+		document.getElementById('today').outerHTML = "Congrats! You've done all your habits for today!";
+	}
+
+	//remove from today view
 	async function displayAllHabits(){
 		let allHabits = await getAll();
-		console.log(allHabits)
 		allHabits.forEach(id => displayHabit(id));
+		getToday();
+	}
+
+	//remove from all view
+	async function displayTodoHabits(){
+		let todo = await getTodo();
+		if (todo.length > 0)
+			todo.forEach(id => displayHabit(id));
+		else
+			displayAllDone();
 	}
 
 	async function showInfo(name){
 		let habit = await getHabit(name);
 		habit.name = name;
-		console.log(habit);
 
 		document.getElementById('modal').innerHTML = Mustache.render(modalView, habit);
 		document.getElementById('popup').style.display='grid';
 	}
 
-	function doHabit(ev){
+	function doHabit(ev, name){
 		ev.stopPropagation();
+		markComplete(name);
+		document.getElementById(name).outerHTML = "";
+
+		if (document.getElementById('today').childElementCount == 0)
+			displayAllDone();
 	}
 </script>
 </body>

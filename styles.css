@@ -164,6 +164,9 @@ ul {
     height: 6.25vh;
 }
 .spaced {
+    margin-top: .8em;
+}
+.spaced tr {
     height: 2.5em;
 }
 .huge {
