@@ -14,13 +14,24 @@ async function getAll(){
 }
 
 function getTodo(){
-	return new Promise((resolve, reject) => {
-		let todo = [];
+	return new Promise(async (resolve, reject) => {
+		let todo = await getNew();
 		let today = new Date();
 		today.setHours(0, 0, 0, 0)
 		userHabits.where('last', '<', today).get().then(snapshot => {
 			snapshot.forEach(doc => todo.push(doc.id));
 			resolve(todo);
+		}).catch(e => reject(e));
+	});
+}
+
+//gets habits that have never been done before
+function getNew(){
+	return new Promise((resolve, reject) => {
+		let newHabits = [];
+		userHabits.where('last', '==', null).get().then(snapshot => {
+			snapshot.forEach(doc => newHabits.push(doc.id));
+			resolve(newHabits);
 		}).catch(e => reject(e));
 	});
 }
@@ -60,18 +71,22 @@ function buildHabit(cue, routine, reward, stack=null, steps=null){
 		reward: reward,
 		stack: stack,
 		steps: steps,
-		type: "build"
+		type: "build",
+		times: null,
+		last: null
 	}
 }
 
-function breakHabit(cue, routine, reward, replace=null, steps=null){
+function breakHabit(cue, routine, reward, replacement=null, steps=null){
 	return {
 		cue: cue,
 		routine: routine,
 		reward: reward,
-		replacement: replace,
+		replacement: replacement,
 		steps: steps,
-		type: "break"
+		type: "break",
+		times: null,
+		last: null
 	}
 }
 
