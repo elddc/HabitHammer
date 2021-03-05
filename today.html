@@ -112,6 +112,10 @@
 			</li>
 		{{/steps}}</ul>
 	{{/steps.length}}
+	<br>
+	<button class="rect-button white orange-bg" onclick="removeHabit('{{name}}')">
+		Delete Habit
+	</button>
 </script>
 
 <script id="addTemplate" type="text/x-handlebars-template">
@@ -147,7 +151,6 @@
 	window.onclick = function(event) {
 		if (event.target === document.getElementById('popup')) {
 			document.getElementById('popup').style.display = 'none';
-			console.log('hide');
 		}
 	}
 
@@ -220,7 +223,7 @@
 			if (habit.replacement === '')
 				habit.replacement = null;
 		}
-		if (habit.steps.length == 0)
+		if (habit.steps.length === 0)
 			habit.steps = null;
 
 		add(habitInfo.name.value, habit);

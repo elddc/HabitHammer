@@ -90,6 +90,10 @@ function breakHabit(cue, routine, reward, replacement=null, steps=null){
 	}
 }
 
+function removeHabit(name){
+	userHabits.doc(name).delete();
+}
+
 //generates 3 example habits
 function fillExample(){
 	add('floss', buildHabit(

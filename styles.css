@@ -158,6 +158,9 @@ a {
 #today li {
     margin-bottom: 1.5em;
 }
+#all li {
+    margin-bottom: 1.5em;
+}
 .habit {
     background-color: white;
     padding: 1em;
