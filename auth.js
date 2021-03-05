@@ -9,7 +9,7 @@ function signUp(){
 		document.getElementById("email").value,
 		document.getElementById("pass").value)
 	.then(() => {
-		window.location.href = 'habits.html';
+		window.location.href = 'today.html';
 	})
 	.catch(e => console.log(e.message));
 }
@@ -19,7 +19,7 @@ function logIn(){
 		document.getElementById("email").value,
 		document.getElementById("pass").value)
 	.then(() => {
-		window.location.href = 'habits.html';
+		window.location.href = 'today.html';
 	})
 	.catch(e => console.log(e.message));
 }
@@ -33,7 +33,7 @@ function logOut(){
 //user is firebase.auth().currentUser
 function redirect(user){
 	if (user) {
-		window.location.replace('habits.html');
+		window.location.replace('today.html');
 		console.log(user.uid);
 	}
 	else {

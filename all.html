@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Habit Hammer</title>
+	<link rel="icon" href="icon.png">
+	<link rel="stylesheet" href="styles.css"/>
+</head>
+<body>
+<div class="container">
+	<div class="nav grid-head">
+		<a class="center-verti huge" href="index.html">
+			<img src="icon.png" class="logo" alt="logo">
+			Habit Hammer
+		</a>
+		<span>
+			<button class="txt-button right white" onclick="logOut()">Log Out</button>
+		</span>
+	</div>
+	<nav class="grid-side big white">
+		<ul>
+			<li onclick="window.location.href='today.html'">Today</li><!-- Today/Upcoming/To Do -->
+			<li>All</li>
+			<li class="spacer"></li>
+			<li>New</li>
+			<li>+ Build</li>
+			<li>+ Break</li>
+			<li class="spacer"></li><!--
+            <li>History</li>History/Stats -->
+		</ul>
+	</nav>
+	<div class="grid-main">
+		<h1>Today</h1>
+		<ul id="today"></ul>
+	</div>
+
+	<div class="modal-bg" id="popup">
+		<div class="modal" id="modal">
+			Info
+		</div>
+	</div>
+</div>
+
+<!-- Firebase -->
+
+<script src="https://www.gstatic.com/firebasejs/8.2.9/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.2.9/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.2.9/firebase-firestore.js"></script>
+
+<script>
+	const firebaseConfig = {
+		apiKey: "AIzaSyBGhVi2ZSQAs3reI07GfNolcSvWO_tSEW4",
+		authDomain: "ec-ftest.firebaseapp.com",
+		projectId: "ec-ftest",
+		storageBucket: "ec-ftest.appspot.com",
+		messagingSenderId: "28831555118",
+		appId: "1:28831555118:web:4a651dafec45d4a5b609bf"
+	};
+	firebase.initializeApp(firebaseConfig);
+</script>
+
+<script src="auth.js"></script>
+<script src="habits.js"></script>
+
+<!-- Mustache templates -->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/4.1.0/mustache.min.js"></script>
+
+<script id="taskTemplate" type="text/x-handlebars-template">
+	<li id={{name}}><div class="habit" onclick="showInfo('{{name}}')">
+		<button class="circle-button" onclick="doHabit(event, '{{name}}')"></button>
+		{{name}}
+	</div></li>
+</script>
+
+<!-- onclick undo? -> remove disabled, style with class instead -->
+<script id="doneTemplate" type="text/x-handlebars-template">
+	<li id={{name}}><div class="habit" onclick="showInfo('{{name}}')">
+		<button class="circle-button" disabled>
+			<img src="check.png" class="checkmark" alt="check">
+		</button>
+		{{name}}
+	</div></li>
+</script>
+
+<!-- todo
+	- edit capabilites
+	- steps checklist-style display w/ prog bar
+	- link stacked habits (if exists)
+-->
+<script id="modalTemplate" type="text/x-handlebars-template">
+	<b class="big blue capital">{{name}}</b>
+	<span class="right gray habit-type"><i>{{type}}</i></span>
+	<br><hr>
+	<table class="habit-table">
+		<tr>
+			<td>Cue</td>
+			<td>{{cue}}</td>
+		</tr>
+		<tr>
+			<td>Routine</td>
+			<td>{{routine}}</td>
+		</tr>
+		<tr>
+			<td>Reward</td>
+			<td>{{reward}}</td>
+		</tr>
+		{{#stack}}
+			<tr class="spaced">
+				<td>Stack with</td>
+				<td>{{stack}}</td>
+			</tr>
+		{{/stack}}
+	</table>
+	{{#steps.length}}
+		<div class="blue underline spaced">Steps</div>
+		<ul>{{#steps}}
+			<li>
+				<!-- checkbox? --> -
+				{{.}}
+			</li>
+		{{/steps}}</ul>
+	{{/steps.length}}
+</script>
+
+<!-- Rendering Stuff -->
+
+<script>
+	//get templates
+	const taskView = document.getElementById('taskTemplate').innerHTML;
+	const doneView = document.getElementById('doneTemplate').innerHTML;
+	const modalView = document.getElementById('modalTemplate').innerHTML;
+
+	//hide popup on bg click
+	window.onclick = function(event) {
+		if (event.target === document.getElementById('popup')) {
+			document.getElementById('popup').style.display = 'none';
+			console.log('hide');
+		}
+	}
+
+	function start(user){
+		setUser(user);
+		displayAllHabits();
+	}
+
+	function displayHabit(name){
+		document.getElementById('today').innerHTML += Mustache.render(taskView, {name});
+	}
+
+	function displayDone(name){
+		document.getElementById('today').innerHTML += Mustache.render(doneView, {name});
+	}
+
+	async function displayAllHabits(){
+		let allHabits = await getAll();
+		let todo = await getTodo();
+
+		console.log(todo);
+
+		allHabits.forEach(id => {
+			if (todo.includes(id))
+				displayHabit(id);
+			else
+				displayDone(id);
+		});
+	}
+
+	async function showInfo(name){
+		let habit = await getHabit(name);
+		habit.name = name;
+
+		document.getElementById('modal').innerHTML = Mustache.render(modalView, habit);
+		document.getElementById('popup').style.display='grid';
+	}
+
+	function doHabit(ev, name){
+		ev.stopPropagation();
+		markComplete(name);
+		document.getElementById(name).outerHTML = "";
+
+		if (document.getElementById('today').childElementCount === 0)
+			displayAllDone();
+	}
+</script>
+</body>
+</html>

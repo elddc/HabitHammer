@@ -19,15 +19,14 @@
 	</div>
     <nav class="grid-side big white">
         <ul>
-            <!-- TODO pages + links -->
-            <li><a href="">Today</a></li><!-- Today/Upcoming/To Do -->
-            <li><a href="">All</a></li>
+            <li>Today</li><!-- Today/Upcoming/To Do -->
+            <li onclick="window.location.href='all.html'">All</li>
             <li class="spacer"></li>
-            <li><a href="">New</a></li>
-            <li><a href="">+ Build</a></li>
-            <li><a href="">+ Break</a></li>
-            <li class="spacer"></li>
-            <li><a href="">History</a></li><!-- History/Stats -->
+            <li>New</li>
+            <li>+ Build</li>
+            <li>+ Break</li>
+            <li class="spacer"></li><!--
+            <li>History</li>History/Stats -->
         </ul>
     </nav>
 	<div class="grid-main">
@@ -133,26 +132,16 @@
 	function start(user){
 		setUser(user);
 		displayTodoHabits();
-		//fillExample();
 	}
 
 	function displayHabit(name){
 		document.getElementById('today').innerHTML += Mustache.render(taskView, {name});
 	}
 
-	//remove from all view
 	function displayAllDone() {
 		document.getElementById('today').outerHTML = "Congrats! You've done all your habits for today!";
 	}
 
-	//remove from today view
-	async function displayAllHabits(){
-		let allHabits = await getAll();
-		allHabits.forEach(id => displayHabit(id));
-		getToday();
-	}
-
-	//remove from all view
 	async function displayTodoHabits(){
 		let todo = await getTodo();
 		if (todo.length > 0)
@@ -174,7 +163,7 @@
 		markComplete(name);
 		document.getElementById(name).outerHTML = "";
 
-		if (document.getElementById('today').childElementCount == 0)
+		if (document.getElementById('today').childElementCount === 0)
 			displayAllDone();
 	}
 </script>

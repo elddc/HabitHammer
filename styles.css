@@ -30,6 +30,9 @@ ul {
     margin: 0;
     padding: 0;
 }
+a {
+    text-decoration: none;
+}
 .main {
     display: grid;
     place-items: center;
@@ -47,6 +50,12 @@ ul {
     height: 50px;
     width: 50px;
     margin: 5px 15px 0 0;
+}
+.checkmark {
+    height: 15px;
+    width: 15px;
+    margin-top: 2px;
+    margin-left: -3px;
 }
 .modal {
     padding: 3vh;
@@ -96,12 +105,9 @@ ul {
     justify-content: center;
     padding-bottom: 10vh;
 }
-.grid-side a {
-    text-decoration: none;
-    color: var(--blue);
-}
 .grid-side li {
     padding: 0.3em 3vw;
+    color: var(--blue);
 }
 .grid-side li:not(.spacer):hover {
     background-color: var(--light-gray);
@@ -132,6 +138,10 @@ ul {
 .rect-button {
     background-color: var(--gray);
 }
+.border-button {
+    border: 0.1em solid var(--gray);
+    border-radius: 0.5em;
+}
 .circle-button {
     height: 25px;
     width: 25px;
@@ -142,9 +152,8 @@ ul {
     background-color: transparent;
     outline: none;
 }
-.border-button {
-    border: 0.1em solid var(--gray);
-    border-radius: 0.5em;
+.circle-button:disabled {
+    background-color: var(--blue);
 }
 #today li {
     margin-bottom: 1.5em;
